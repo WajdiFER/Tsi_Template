@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tsi.Template.Core\Tsi.Template.Core.csproj" />
+    <ProjectReference Include="..\Tsi.Template.Domain\Tsi.Template.Domain.csproj" />
+    <ProjectReference Include="..\Tsi.Template.Helpers\Tsi.Template.Helpers.csproj" />
+    <ProjectReference Include="..\Tsi.Template.Services\Tsi.Template.Services.csproj" />
+    <ProjectReference Include="..\Tsi.Template.ViewModels\Tsi.Template.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>
