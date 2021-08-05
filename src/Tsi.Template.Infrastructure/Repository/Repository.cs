@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using Tsi.Template.Core.Abstractions;
 using Tsi.Template.Core.Events;
@@ -84,7 +83,7 @@ namespace Tsi.Template.Infrastructure.Repository
 
         }
 
-        public Task<IAsyncEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> @where = null, Expression<Func<T, bool>> orderBy = null)
+        public Task<IEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> @where = null, Expression<Func<T, bool>> orderBy = null)
         {
             IQueryable<T> query = dbset;
             if (where != null)
@@ -102,7 +101,7 @@ namespace Tsi.Template.Infrastructure.Repository
                 query = query.OrderBy(orderBy);
             }
 
-            return Task.FromResult(query.AsAsyncEnumerable());
+            return Task.FromResult(query.AsEnumerable());
         }
 
         public async Task<int> UpdateAsync(T entity)
@@ -116,15 +115,15 @@ namespace Tsi.Template.Infrastructure.Repository
             return result;
         }
 
-        public Task<IAsyncEnumerable<T>> GetAllAsync()
+        public Task<IEnumerable<T>> GetAllAsync()
         {
             if (typeof(ISoftDelete).IsAssignableFrom(typeof(T)))
             {
-                return Task.FromResult(dbset.Where(T => !((ISoftDelete)T).Deleted).AsAsyncEnumerable());
+                return Task.FromResult(dbset.Where(T => !((ISoftDelete)T).Deleted).AsEnumerable());
             }
             else
             {
-                return Task.FromResult(dbset.AsAsyncEnumerable());
+                return Task.FromResult(dbset.AsEnumerable());
             }   
         }
 

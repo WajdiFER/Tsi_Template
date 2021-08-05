@@ -1,0 +1,60 @@
+﻿@using Tsi.Template.ViewModels.Catalog;
+@model IEnumerable<ProductViewModel>
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="form-horizontal">
+            <div class="cards-group">
+                <div>
+                    <div class="icon-search">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Create">
+                            <i class="fas fa-plus-circle"></i>Create
+                        </a>
+                    </div>
+
+                </div>
+
+                <br />
+
+                <div class="card card-default">
+                    <div class="card-body">
+
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Code</th>
+                                    <th scope="col">Libelle</th>
+                                    <th scope="col">Prix</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ int index = 0;}
+                                @foreach (ProductViewModel item in Model)
+                                {
+                                    index++;
+                                    <tr>
+                                        <th scope="row">@index</th>
+                                        <td>@item.Code</td>
+                                        <td>@item.Libelle</td>
+                                        <td>@item.Price</td>
+                                        <td>  
+                                           @Html.ActionLink("Delete", "Delete", "Product", new { id = item.Id }, null)
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+
+
+</section>

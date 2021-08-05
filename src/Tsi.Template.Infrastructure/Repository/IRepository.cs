@@ -13,8 +13,8 @@ namespace Tsi.Template.Infrastructure.Repository
         Task<int> DeleteAsync(T entity);
         Task<T> GetAsync(Expression<Func<T, bool>> where); 
         Task<T> GetByIdAsync(int id); 
-        Task<IAsyncEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> where = null, Expression<Func<T, bool>> orderBy = null); 
+        Task<IEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> where = null, Expression<Func<T, bool>> orderBy = null); 
         Task<int> UpdateAsync(T entity);
-        Task<IAsyncEnumerable<T>> GetAllAsync(); 
+        Task<IEnumerable<T>> GetAllAsync(); 
     }
 }
