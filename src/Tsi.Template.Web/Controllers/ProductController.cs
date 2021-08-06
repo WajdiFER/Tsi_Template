@@ -44,5 +44,34 @@ namespace Tsi.Template.Web.Controllers
             await _productService.DeleteProductAsync(id);
             return RedirectToAction(nameof(Index));
         }
+
+        // Retrieve product from database
+        // Show form with the product info
+        [HttpGet("Product/Update/{id}")]
+        public async Task<IActionResult> UpdateAsync(int id)
+        {
+            // retrieve product from database
+            var product = await _productService.GetProductByIdAsync(id);
+
+            if (product is null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            // map product to view model
+            var model = product.ToViewModel();
+
+            // return view(model)
+            return View(model);
+        }
+
+        [HttpPost()]
+        public async Task<IActionResult> UpdateAsync(ProductViewModel model)
+        {
+            await _productService.UpdateProductAsync(model.Id, model);
+
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

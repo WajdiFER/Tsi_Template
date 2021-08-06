@@ -5,6 +5,7 @@ using Tsi.Template.Core.Attributes;
 using Tsi.Template.Domain.Gesc.Catalog;
 using Tsi.Template.Domain.Logging;
 using Tsi.Template.Infrastructure.Repository;
+using Tsi.Template.ViewModels.Catalog;
 
 namespace Tsi.Template.Services.Catalog
 {
@@ -31,6 +32,26 @@ namespace Tsi.Template.Services.Catalog
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
             return await _productRepo.GetAllAsync();
+        }
+
+        public async Task<Product> GetProductByIdAsync(int id)
+        {
+            return await _productRepo.GetByIdAsync(id);
+        }
+
+        public async Task UpdateProductAsync(int id, ProductViewModel model)
+        {
+            var productToUpdate = await GetProductByIdAsync(id);
+
+            if (productToUpdate is null)
+            {
+                return;
+            }
+
+            productToUpdate.Libelle = model.Libelle;
+            productToUpdate.Price = model.Price;
+
+            await _productRepo.UpdateAsync(productToUpdate);
         }
     } 
 }

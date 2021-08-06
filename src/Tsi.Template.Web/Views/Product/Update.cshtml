@@ -1,0 +1,29 @@
+﻿
+@using Tsi.Template.ViewModels.Catalog;
+@model ProductViewModel;
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Update product</h5>
+        <form asp-controller="Product" asp-action="Update" method="post">
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.Code)
+                <input type="text" id="Code" name="Code" class="form-control" value="@Model.Code" disabled />
+            </div>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.Libelle)
+                <input type="text" id="Libelle" name="Libelle" class="form-control" value="@Model.Libelle" />
+            </div>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.Price)
+                <input type="text" id="Price" name="Price" class="form-control" value="@Model.Price" />
+            </div>
+
+            <div class="form-group text-center">
+                <button type="submit" name="save" class="btn btn-primary col-md-3">
+                    <i class="far fa-save"></i> Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

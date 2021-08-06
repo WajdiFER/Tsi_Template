@@ -35,15 +35,17 @@
                                 @foreach (ProductViewModel item in Model)
                                 {
                                     index++;
-                                    <tr>
-                                        <th scope="row">@index</th>
-                                        <td>@item.Code</td>
-                                        <td>@item.Libelle</td>
-                                        <td>@item.Price</td>
-                                        <td>  
-                                           @Html.ActionLink("Delete", "Delete", "Product", new { id = item.Id }, null)
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <th scope="row">@index</th>
+                                    <td>@item.Code</td>
+                                    <td>@item.Libelle</td>
+                                    <td>@item.Price</td>
+                                    <td>
+                                        @Html.ActionLink("Delete", "Delete", "Product", new { id = item.Id }, null)
+                                        @Html.ActionLink("Update", "Update", "Product", new { id = item.Id }, null)
+                                    </td>
+                                   
+                                </tr>
                                 }
                             </tbody>
                         </table>
