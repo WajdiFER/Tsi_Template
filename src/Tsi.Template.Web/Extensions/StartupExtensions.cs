@@ -4,11 +4,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Tsi.Template.Core.Extensions;
 using Microsoft.Extensions.Hosting;
-using Tsi.Template.Core;
-using System;
+using Tsi.Template.Core; 
 using Tsi.Template.Services;
 using Tsi.Template.Helpers;
 using Tsi.Template.Infrastructure;
+using FluentValidation.AspNetCore;
+using Tsi.Template.Validation;
 
 namespace Tsi.Template.Web.Extensions
 {
@@ -24,7 +25,8 @@ namespace Tsi.Template.Web.Extensions
 
             services.RegisterApplicationDependencies(Configuration);
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ValidatorAssemblyReferencer>());
         }
 
         private static void LoadAssemblies()
@@ -33,6 +35,7 @@ namespace Tsi.Template.Web.Extensions
             EngineContext.Current.LoadAssembly(typeof(AssemblyReferencerServices));
             EngineContext.Current.LoadAssembly(typeof(AssemblyReferencerHelpers)); 
             EngineContext.Current.LoadAssembly(typeof(AssemblyReferencerInfrastructure)); 
+            EngineContext.Current.LoadAssembly(typeof(ValidatorAssemblyReferencer)); 
         }
 
         public static void ConfigureApplicationPipeline(this IApplicationBuilder app, IWebHostEnvironment env)
