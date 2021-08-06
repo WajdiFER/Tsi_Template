@@ -16,5 +16,8 @@ namespace Tsi.Template.Abstraction.Catalog
         Task<Product> GetProductByIdAsync(int id);
 
         Task<IEnumerable<Product>> GetAllAsync();
+        Task<Product> GetProductbyId(int id);
+        Task<Product> GetProductbyCode(string code);
+        Task UpdateProductAsync(ProductViewModel model);
     }
 }

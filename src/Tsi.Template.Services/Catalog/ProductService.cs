@@ -34,24 +34,28 @@ namespace Tsi.Template.Services.Catalog
             return await _productRepo.GetAllAsync();
         }
 
-        public async Task<Product> GetProductByIdAsync(int id)
+        public async Task<Product> GetProductbyCode(string code)
+        {
+            return await _productRepo.GetAsync(p => p.Code.Equals(code));
+        }
+
+        public async Task<Product> GetProductbyId(int id)
         {
             return await _productRepo.GetByIdAsync(id);
         }
 
-        public async Task UpdateProductAsync(int id, ProductViewModel model)
-        {
-            var productToUpdate = await GetProductByIdAsync(id);
+        public async Task UpdateProductAsync(ProductViewModel model)
+        {     
+            var product = await GetProductbyId(model.Id);
 
-            if (productToUpdate is null)
+            if( product is null)
             {
                 return;
             }
 
-            productToUpdate.Libelle = model.Libelle;
-            productToUpdate.Price = model.Price;
-
-            await _productRepo.UpdateAsync(productToUpdate);
+            product.Libelle = model.Libelle;
+            product.Price = model.Price;
+            await _productRepo.UpdateAsync(product);
         }
     } 
 }

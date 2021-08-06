@@ -3,16 +3,19 @@ using System.Threading.Tasks;
 using Tsi.Template.Abstraction.Catalog;
 using Tsi.Template.Helpers.Catalog;
 using Tsi.Template.ViewModels.Catalog;
+using Tsi.Template.Web.Factories.Catalog;
 
 namespace Tsi.Template.Web.Controllers
 {
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
+        private readonly IProductModelFactory _productModelFactory;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService, IProductModelFactory productModelFactory)
         {
             _productService = productService;
+            _productModelFactory = productModelFactory;
         }
 
         public async Task<IActionResult> Index()
@@ -24,13 +27,20 @@ namespace Tsi.Template.Web.Controllers
 
 
         public async Task<IActionResult> Create()
-        { 
-            return View();
+        {
+            var model = await _productModelFactory.PrepareProductViewModelAsync();
+
+            return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(ProductViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             var product = model.ToProduct();
 
             await _productService.CreateProductAsync(product);
@@ -45,33 +55,20 @@ namespace Tsi.Template.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Retrieve product from database
-        // Show form with the product info
-        [HttpGet("Product/Update/{id}")]
-        public async Task<IActionResult> UpdateAsync(int id)
-        {
-            // retrieve product from database
-            var product = await _productService.GetProductByIdAsync(id);
+        [HttpGet("Product/Edit/{id}")]
+        public async Task<IActionResult> EditAsync(int id) => View((await _productService.GetProductbyId(id)).ToViewModel());
 
-            if (product is null)
+
+        [HttpPost]
+        public async Task<IActionResult> EditAsync(ProductViewModel model)
+        {
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                return View(model);
             }
 
-            // map product to view model
-            var model = product.ToViewModel();
-
-            // return view(model)
-            return View(model);
-        }
-
-        [HttpPost()]
-        public async Task<IActionResult> UpdateAsync(ProductViewModel model)
-        {
-            await _productService.UpdateProductAsync(model.Id, model);
-
+            await  _productService.UpdateProductAsync(model);
             return RedirectToAction(nameof(Index));
         }
-
     }
 }
