@@ -5,10 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="10.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +23,7 @@
     <ProjectReference Include="..\Tsi.Template.Domain\Tsi.Template.Domain.csproj" />
     <ProjectReference Include="..\Tsi.Template.Helpers\Tsi.Template.Helpers.csproj" />
     <ProjectReference Include="..\Tsi.Template.Services\Tsi.Template.Services.csproj" />
+    <ProjectReference Include="..\Tsi.Template.Validation\Tsi.Template.Validation.csproj" />
     <ProjectReference Include="..\Tsi.Template.ViewModels\Tsi.Template.ViewModels.csproj" />
   </ItemGroup>
 

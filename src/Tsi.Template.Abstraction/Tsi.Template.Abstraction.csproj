@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tsi.Template.Domain\Tsi.Template.Domain.csproj" />
+    <ProjectReference Include="..\Tsi.Template.ViewModels\Tsi.Template.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Tsi.Template.Domain.Gesc.Catalog;
 using Tsi.Template.Infrastructure.Abstraction;
 
@@ -11,7 +12,7 @@ namespace Tsi.Template.Infrastructure.Configuration
             base.Configure(builder);
 
             builder.Property(e => e.Code).IsRequired().HasMaxLength(50);
-            builder.HasIndex(e => e.Code).IsUnique();
+            builder.HasIndex(e => e.Code).HasFilter($" {nameof(Product.Deleted)} = 1 ");
 
             builder.Property(e => e.Libelle).IsRequired().HasMaxLength(250);
 
