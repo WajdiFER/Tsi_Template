@@ -21,7 +21,7 @@ namespace Tsi.Template.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var products = (await _productService.GetAllAsync()).ToViewModels();
-             
+            
             return View(products);
         }
 

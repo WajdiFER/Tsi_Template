@@ -1,10 +1,13 @@
 ﻿using FluentValidation;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Tsi.Template.Abstraction.Catalog;
 using Tsi.Template.ViewModels.Catalog;
 
 namespace Tsi.Template.Validation.Catalog
 {
-    public class ProductViewModelValidator : AbstractValidator<ProductViewModel>
+    public class ProductViewModelValidator : TsiBaseValidator<ProductViewModel>
     {
         private readonly IProductService _productService;
         public ProductViewModelValidator(IProductService productService)
@@ -21,6 +24,14 @@ namespace Tsi.Template.Validation.Catalog
 
                  return productsWithCode is null;
              }).WithMessage("Code already exist in the database");
+
+            RuleFor(p => p).Must(ValidateSommeEcritureDetail)
+                .WithMessage(GetMessage("TSI.CMPT.ERROR.ECRITURENONEQUILIBRE"));
         }
+
+        private bool ValidateSommeEcritureDetail(ProductViewModel arg)
+        {
+            return false;
+        } 
     }
 }
