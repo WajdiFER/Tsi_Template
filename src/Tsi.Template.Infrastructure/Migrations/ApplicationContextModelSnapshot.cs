@@ -75,6 +75,78 @@ namespace Tsi.Template.Infrastructure.Migrations
 
                     b.ToTable("Products");
                 });
+
+            modelBuilder.Entity("Tsi.Template.Domain.Grh.Departement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("Libelle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("Departements");
+                });
+
+            modelBuilder.Entity("Tsi.Template.Domain.Grh.Employee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("Cin")
+                        .HasMaxLength(8)
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("DepartementId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Cin")
+                        .IsUnique();
+
+                    b.HasIndex("DepartementId");
+
+                    b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("Tsi.Template.Domain.Grh.Employee", b =>
+                {
+                    b.HasOne("Tsi.Template.Domain.Grh.Departement", "Departement")
+                        .WithMany("Employees")
+                        .HasForeignKey("DepartementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Departement");
+                });
+
+            modelBuilder.Entity("Tsi.Template.Domain.Grh.Departement", b =>
+                {
+                    b.Navigation("Employees");
+                });
 #pragma warning restore 612, 618
         }
     }

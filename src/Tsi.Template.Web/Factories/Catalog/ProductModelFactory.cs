@@ -8,6 +8,6 @@ namespace Tsi.Template.Web.Factories.Catalog
     [Injectable(typeof(IProductModelFactory))]
     public class ProductModelFactory : IProductModelFactory
     {
-        public Task<ProductViewModel> PrepareProductViewModelAsync()=> Task.FromResult(new ProductViewModel());
+        public Task<ProductViewModel> PrepareProductViewModelAsync() => Task.FromResult(new ProductViewModel());
     }
 }

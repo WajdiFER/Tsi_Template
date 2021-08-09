@@ -1,0 +1,28 @@
+﻿@using Tsi.Template.ViewModels.Grh;
+@model DepartementViewModel
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Create Departement</h5>
+        <form asp-controller="Departement" asp-action="Create" method="post">
+
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.Code)
+                <input type="text" id="Code" name="Code" class="form-control" value="@Model.Code"  />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.Libelle)
+                <input type="text" id="Libelle" name="Libelle" class="form-control" value="@Model.Libelle" />
+                <span asp-validation-for="Libelle" class="text-danger"></span>
+            </div>
+            
+
+            <div class="form-group text-center">
+                <button type="submit" name="save" class="btn btn-primary col-md-3">
+                    <i class="far fa-save"></i> Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

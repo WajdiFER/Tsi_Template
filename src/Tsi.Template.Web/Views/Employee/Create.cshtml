@@ -1,0 +1,50 @@
+﻿@using Tsi.Template.ViewModels.Grh.Employee;
+@using Microsoft.AspNetCore.Mvc.Rendering 
+
+@model CreateEmployeeRequest
+
+
+<link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
+<!-- select2-bootstrap4-theme -->
+<link href="https://raw.githack.com/ttskch/select2-bootstrap4-theme/master/dist/select2-bootstrap4.css" rel="stylesheet">
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Create Employee</h5>
+        <form asp-controller="Employee" asp-action="Create" method="post">
+
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.FirstName)
+                <input type="text" id="FirstName" name="FirstName" class="form-control" value="@Model.FirstName" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.LastName)
+                <input type="text" id="LastName" name="LastName" class="form-control" value="@Model.LastName" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.Cin)
+                <input type="text" id="Cin" name="Cin" class="form-control" value="@Model.Cin" />
+                <span asp-validation-for="Cin" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.DepartementId)
+                @Html.DropDownListFor(x => x.DepartementId, Model.Departments, "", new { @id = "simpleSelect2", @class = "form-control" })
+                <span asp-validation-for="DepartementId" class="text-danger"></span>
+            </div> 
+            <div class="form-group text-center">
+                <button type="submit" name="save" class="btn btn-primary col-md-3">
+                    <i class="far fa-save"></i> Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/js/select2.js"></script>
+}
