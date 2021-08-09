@@ -1,0 +1,66 @@
+﻿@using Tsi.Template.ViewModels.Grh;
+@using Tsi.Template.Helpers.grh
+@model IEnumerable<EmployeeViewModel>
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="form-horizontal">
+            <div class="cards-group">
+                <div>
+                    <h2>Employees List</h2>
+                    <div class="icon-search">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Create">
+                            <i class="fas fa-plus-circle"></i>Create
+                        </a>
+                    </div>
+
+                </div>
+
+                <br />
+
+                <div class="card card-default">
+                    <div class="card-body">
+
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">First Name</th>
+                                    <th scope="col">Last Name</th>
+                                    <th scope="col">Departement</th>
+
+                                    <th scope="col" colspan="2">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ int index = 0;}
+                                @foreach (EmployeeViewModel item in Model)
+                                {
+                                    index++;
+                                <tr>
+                                    <th scope="row">@index</th>
+                                    <td>@item.FirstName</td>
+                                    <td>@item.LastName</td>
+                                    <td>@item.DepartementName</td>
+                                    <td>
+                                        @Html.ActionLink("Delete", "Delete", "Employee", new { id = item.Id }, null)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", "Employee", item, null)
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+
+
+</section>

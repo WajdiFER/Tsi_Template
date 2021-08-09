@@ -15,6 +15,7 @@ namespace Tsi.Template.Infrastructure.Repository
         Task<T> GetByIdAsync(int id); 
         Task<IEnumerable<T>> GetManyAsync(Expression<Func<T, bool>> where = null, Expression<Func<T, bool>> orderBy = null); 
         Task<int> UpdateAsync(T entity);
-        Task<IEnumerable<T>> GetAllAsync(); 
+        Task<IEnumerable<T>> GetAllAsync();
+        Task<IEnumerable<T>> GetManyWithIncludeAsync(Expression<Func<T, bool>> where = null, Expression<Func<T, bool>> orderBy = null, Expression<Func<T, object>> include= null);
     }
 }

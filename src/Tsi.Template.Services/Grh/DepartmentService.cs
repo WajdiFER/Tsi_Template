@@ -7,6 +7,7 @@ using Tsi.Template.Abstraction.Grh;
 using Tsi.Template.Core.Attributes;
 using Tsi.Template.Domain.Grh;
 using Tsi.Template.Infrastructure.Repository;
+using Tsi.Template.ViewModels.Grh;
 
 namespace Tsi.Template.Services.Grh
 {
@@ -24,9 +25,9 @@ namespace Tsi.Template.Services.Grh
             return await _departementRepo.AddAsync(departement);
         }
 
-        public Task DeleteDepartementAsync(int id)
+        public async Task DeleteDepartementAsync(int id)
         {
-            throw new NotImplementedException();
+            await _departementRepo.DeleteAsync(p => p.Id == id);
         }
 
         public async Task<IEnumerable<Departement>> GetAllAsync()
@@ -34,14 +35,29 @@ namespace Tsi.Template.Services.Grh
             return await _departementRepo.GetAllAsync();
         }
 
-        public Task<Departement> GetDepartementbyCode(string code)
+        public async Task<Departement> GetDepartementbyCode(string code)
         {
-            throw new NotImplementedException();
+            return await _departementRepo.GetAsync(t => t.Code.Equals(code));
         }
 
-        public Task<Departement> GetDepartementbyId(int id)
+        public async Task<Departement> GetDepartementbyId(int id)
         {
-            throw new NotImplementedException();
+            return await _departementRepo.GetByIdAsync(id);
+        }
+
+        public async Task UpdateDepartementAsync(DepartementViewModel model)
+        {
+            var departement = await GetDepartementbyId(model.Id);
+
+            if (departement is null)
+            {
+                return;
+            }
+
+            departement.Code = model.Code;
+            departement.Libelle = model.Libelle;
+
+            await _departementRepo.UpdateAsync(departement);
         }
     }
 }
