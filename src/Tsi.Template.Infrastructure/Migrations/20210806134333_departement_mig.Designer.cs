@@ -10,7 +10,7 @@ using Tsi.Template.Infrastructure.Data;
 namespace Tsi.Template.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210806134333_departement_mig")]
+    [Migration("20210806130840_TableDepartement")]
     partial class departement_mig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

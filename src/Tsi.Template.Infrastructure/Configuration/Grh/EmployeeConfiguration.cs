@@ -27,7 +27,7 @@ namespace Tsi.Template.Infrastructure.Configuration.Grh
             builder.Property(e => e.Cin)
                 .HasMaxLength(8);
 
-            builder.HasOne<Departement>(s => s.Departement)
+            builder.HasOne(s => s.Departement)
                 .WithMany(g => g.Employees)
                 .HasForeignKey(s => s.DepartementId);
         }

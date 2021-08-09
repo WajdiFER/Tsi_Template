@@ -12,7 +12,7 @@ namespace Tsi.Template.Abstraction.Grh
         Task<IEnumerable<Employee>> GetAllAsync();
         Task<Employee> GetEmployeebyIdAsync(int id);
         Task<Employee> GetEmployeetbyCinAsync(long cin);
-        Task UpdateEmployeeAsync(EmployeeViewModel model);
+        Task UpdateEmployeeAsync(int id, Employee model);
         Task<IEnumerable<Employee>> GetAllWithIncludeAsync();
     }
 }

@@ -46,9 +46,9 @@ namespace Tsi.Template.Services.Grh
             return await _employeeRepo.GetAsync(t => t.Cin == cin);
         }
 
-        public async Task UpdateEmployeeAsync(EmployeeViewModel model)
+        public async Task UpdateEmployeeAsync(int id, Employee model)
         {
-            var employee = await GetEmployeebyIdAsync(model.Id);
+            var employee = await GetEmployeebyIdAsync(id);
 
             if (employee is null)
             {

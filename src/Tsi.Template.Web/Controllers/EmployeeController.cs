@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Tsi.Template.Abstraction.Grh;
 using Tsi.Template.Helpers.grh;
 using Tsi.Template.ViewModels.Grh;
-using Tsi.Template.Web.Factories.Grh;
+using Tsi.Template.Web.Factories.Grh; 
+using Tsi.Template.ViewModels.Grh.Employee;
 
 namespace Tsi.Template.Web.Controllers
 {
@@ -32,41 +33,45 @@ namespace Tsi.Template.Web.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var model = await _employeeModelFactory.PrepareEmployeeViewModelAsync();
-        //    ViewBag.departemetsId = new SelectList(await _departementService.GetAllAsync(), "Id", "Name" ); ;
+            var model = await _employeeModelFactory.PrepareEmployeeViewModelAsync(); 
             
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(EmployeeViewModel model)
+        public async Task<IActionResult> Create(CreateEmployeeRequest model)
         {
             if (!ModelState.IsValid)
             {
-                
+                model = await _employeeModelFactory.PopulateDepartmentsSelectListAsync(model);
+
                 return View(model);
-            }
-         //   ViewBag.departemetsId = _departementService.GetAllAsync().GetAwaiter().GetResult().Select(t => t.Id).ToList();
-            var employee = model.ToEmployee();
+            } 
+
+            var employee = model.ToModel();
 
             await _employeeService.CreateEmployeeAsync(employee);
 
             return RedirectToAction(nameof(Index));
-        }
+        } 
 
         [HttpGet("Employee/Edit/{id}")]
-        public async Task<IActionResult> EditAsync(int id) => View((await _employeeService.GetEmployeebyIdAsync(id)).ToViewModel());
+        public async Task<IActionResult> EditAsync(int id)
+        {
+            var model = await _employeeModelFactory.PrepareEmployeeCreateModelAsync(id);
+            await _employeeModelFactory.PopulateDepartmentsSelectListAsync(model);
+            return View(model);
+        }
 
 
         [HttpPost]
-        public async Task<IActionResult> EditAsync(EmployeeViewModel model)
+        public async Task<IActionResult> EditAsync(CreateEmployeeRequest model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-
-            await _employeeService.UpdateEmployeeAsync(model);
+            await _employeeService.UpdateEmployeeAsync(model.Id, model.ToModel());
             return RedirectToAction(nameof(Index));
         }
 

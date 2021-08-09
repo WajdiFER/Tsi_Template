@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 using FluentValidation;
 using Tsi.Template.Abstraction.Grh;
-using Tsi.Template.Domain.Grh;
-using Tsi.Template.ViewModels.Grh;
+using Tsi.Template.Core;
+using Tsi.Template.ViewModels.Grh.Employee;
 
 namespace Tsi.Template.Validation.Grh
 {
-    public class EmployeeViewModelValidator : TsiBaseValidator<EmployeeViewModel>
+    public class EmployeeViewModelValidator : TsiBaseValidator<CreateEmployeeRequest>
     {
         private readonly IEmployeeService _employeeService;
         private readonly IDepartmentService _departementService;
+        
 
         public EmployeeViewModelValidator(IEmployeeService EmployeeService, IDepartmentService DepartementService)
         {
@@ -33,11 +29,9 @@ namespace Tsi.Template.Validation.Grh
                 .Must(IsCin8Digits)
                 .WithMessage("Cin must be with 8 digits");
 
-            RuleFor(p => p.Cin).Must(IsCinUnique)
-                .WithMessage("Cin must be unique");
-
-
-
+            RuleFor(p => p.Cin)
+                .Must(IsCinUnique)
+                .WithMessage("Cin must be unique"); 
 
             RuleFor(p => p.DepartementId).Must(DepartementId =>
             {
@@ -46,28 +40,26 @@ namespace Tsi.Template.Validation.Grh
                 return departement is not null;
             }).WithMessage("Departement does not exist in the database");
 
-
-
-
+            RuleFor(p => p.DepartementId)
+                .NotEmpty()
+                .WithMessage("Please enter department");
         }
 
         
-        public bool IsCinUnique(EmployeeViewModel editedEmployee, long newValue)
+        public bool IsCinUnique(CreateEmployeeRequest editedEmployee, long newValue)
         {
             var employeesWithCin = _employeeService.GetEmployeetbyCinAsync(editedEmployee.Cin).GetAwaiter().GetResult();
-            if(employeesWithCin == null)
-                return editedEmployee.Cin == newValue;
-            else
-            {
-                return employeesWithCin.Id == editedEmployee.Id || editedEmployee.Cin != newValue;
-            }
-            
+
+            return employeesWithCin is null?
+                editedEmployee.Cin == newValue:
+                employeesWithCin.Id == editedEmployee.Id || editedEmployee.Cin != newValue;  
         }
 
-        public bool IsCin8Digits(long cin)
+        public static bool IsCin8Digits(long cin)
         {
-            Regex rx = new Regex(@"^\d{8}$",
-            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            Regex rx = new(CoreDefaults.RegexPatterns.EIGHT_DIGITS
+                , RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
             return rx.IsMatch(cin.ToString());
         }
     }

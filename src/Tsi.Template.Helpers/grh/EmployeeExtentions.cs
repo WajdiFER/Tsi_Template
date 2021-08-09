@@ -2,6 +2,7 @@
 using System.Linq;
 using Tsi.Template.Domain.Grh;
 using Tsi.Template.ViewModels.Grh;
+using Tsi.Template.ViewModels.Grh.Employee;
 
 namespace Tsi.Template.Helpers.grh
 {
@@ -11,8 +12,7 @@ namespace Tsi.Template.Helpers.grh
         {
             FirstName = model.FirstName,
             LastName = model.LastName,
-            Cin = model.Cin,
-            DepartementId = model.DepartementId
+            Cin = model.Cin
         };
 
         public static EmployeeViewModel ToViewModel(this Employee employee) => new()
@@ -21,7 +21,6 @@ namespace Tsi.Template.Helpers.grh
             FirstName = employee.FirstName,
             LastName = employee.LastName,
             Cin = employee.Cin,
-            DepartementId = employee.DepartementId,
             DepartementName = employee.Departement.Libelle
         };
 
@@ -30,5 +29,15 @@ namespace Tsi.Template.Helpers.grh
 
         public static IEnumerable<EmployeeViewModel> ToViewModels(this IEnumerable<Employee> employees)
             => employees.Select(ToViewModel);
+
+
+        public static Employee ToModel(this CreateEmployeeRequest model) => new()
+        {
+            FirstName = model.FirstName,
+            LastName = model.LastName,
+            Cin = model.Cin,
+            DepartementId = model.DepartementId,
+            Id = model.Id
+        };
     }
 }

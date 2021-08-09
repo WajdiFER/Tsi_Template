@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
-namespace Tsi.Template.ViewModels.Grh
+namespace Tsi.Template.ViewModels.Grh.Employee
 {
-    public class EmployeeViewModel
+    public class CreateEmployeeRequest
     {
         public int Id { get; set; }
 
@@ -15,9 +16,8 @@ namespace Tsi.Template.ViewModels.Grh
         [Display(Name = "National ID Card")]
         public long Cin { get; set; }
 
-        [Display(Name = "Associated Department ")]
+        [Display(Name = "Associated Department")]
         public int DepartementId { get; set; }
-
-        public string DepartementName { get; set; }
+        public SelectList Departments { get; set; }
     }
 }

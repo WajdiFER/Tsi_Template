@@ -1,9 +1,7 @@
-﻿@using Tsi.Template.ViewModels.Grh;
-@using Tsi.Template.Helpers.grh
-@using Microsoft.AspNetCore.Mvc.Rendering
-@using Tsi.Template.Web.SelectedList
+﻿@using Tsi.Template.ViewModels.Grh.Employee;
+@using Microsoft.AspNetCore.Mvc.Rendering 
 
-@model EmployeeViewModel
+@model CreateEmployeeRequest
 
 
 <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
@@ -33,15 +31,9 @@
 
             <div class="form-group">
                 @Html.DisplayNameFor(model => model.DepartementId)
-                @Html.DropDownListFor(x => x.DepartementId, SelectListItemHelper.GetDepartementList(), "   Select    Departement", new { @id = "simpleSelect2", @class = "myclass" })
+                @Html.DropDownListFor(x => x.DepartementId, Model.Departments, "", new { @id = "simpleSelect2", @class = "form-control" })
                 <span asp-validation-for="DepartementId" class="text-danger"></span>
-            </div>
-
-
-
-            
-
-
+            </div> 
             <div class="form-group text-center">
                 <button type="submit" name="save" class="btn btn-primary col-md-3">
                     <i class="far fa-save"></i> Save
