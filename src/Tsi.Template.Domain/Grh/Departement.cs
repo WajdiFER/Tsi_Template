@@ -11,5 +11,6 @@ namespace Tsi.Template.Domain.Grh
     {
         public string Code { get; set; }
         public string Libelle { get; set; }
+        public ICollection<Employee> Employees { get; set; }
     }
 }

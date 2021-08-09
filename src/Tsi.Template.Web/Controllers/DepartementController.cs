@@ -49,5 +49,29 @@ namespace Tsi.Template.Web.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet("Departement/Edit/{id}")]
+        public async Task<IActionResult> EditAsync(int id) => View((await _departmentService.GetDepartementbyId(id)).ToViewModel());
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditAsync(DepartementViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await _departmentService.UpdateDepartementAsync(model);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet("Departement/Delete/{id}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            await _departmentService.DeleteDepartementAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

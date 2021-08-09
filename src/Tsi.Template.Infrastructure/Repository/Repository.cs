@@ -154,6 +154,22 @@ namespace Tsi.Template.Infrastructure.Repository
 
             dbset.Update(entity);
         }
+
+        public Task<IEnumerable<T>> GetManyWithIncludeAsync(Expression<Func<T, bool>> where = null, Expression<Func<T, bool>> orderBy = null, Expression<Func<T, object>> include = null)
+        {
+            IQueryable<T> Query = dbset;
+            if (where != null)
+            {
+                Query = Query.Include(include).Where(where);
+            }
+            if (where == null)
+            {
+                Query = Query.Include(include);
+            }
+            
+
+            return Task.FromResult(Query.AsEnumerable());
+        }
         #endregion
     }
 }
