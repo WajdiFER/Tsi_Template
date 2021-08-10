@@ -26,14 +26,9 @@ namespace Tsi.Template.Web.Controllers
             _settingService = settingService;
         }
 
-        public async Task<IActionResult> LoginAsync(string returnUrl = "")
+        public async Task<IActionResult> LoginAsync()
         {
-            var model = await _accountModelFactory.PrepareLoginModelAsync();
-
-            if (!string.IsNullOrEmpty(returnUrl))
-            {
-                ViewData.Add("ReturnUrl", returnUrl);
-            }
+            var model = await _accountModelFactory.PrepareLoginModelAsync(); 
 
             return View(model);
         }
@@ -73,13 +68,17 @@ namespace Tsi.Template.Web.Controllers
                     {
                         user = await _userService.GetUserByEmailAsync(model.Email);
                     } 
+                    
                     await _userRegistrationService.SignInUserAsync(user);
 
-                    if(!string.IsNullOrEmpty(returnUrl))
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     {
-                        return RedirectToRoute(returnUrl);
+                        return Redirect(returnUrl);
                     }
-                    return RedirectToAction("Index", "Home");
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
             } 
 
             return  View(model);

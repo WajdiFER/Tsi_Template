@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Tsi.Template.Core.Extensions;
 using Microsoft.Extensions.Hosting;
-using Tsi.Template.Core; 
+using Tsi.Template.Core;
 using Tsi.Template.Services;
 using Tsi.Template.Helpers;
 using Tsi.Template.Infrastructure;
@@ -53,8 +53,8 @@ namespace Tsi.Template.Web.Extensions
         {
             EngineContext.Current.LoadAssembly(typeof(StartupExtensions));
             EngineContext.Current.LoadAssembly(typeof(AssemblyReferencerServices));
-            EngineContext.Current.LoadAssembly(typeof(AssemblyReferencerHelpers)); 
-            EngineContext.Current.LoadAssembly(typeof(AssemblyReferencerInfrastructure)); 
+            EngineContext.Current.LoadAssembly(typeof(AssemblyReferencerHelpers));
+            EngineContext.Current.LoadAssembly(typeof(AssemblyReferencerInfrastructure));
             EngineContext.Current.LoadAssembly(typeof(ValidatorAssemblyReferencer));
             EngineContext.Current.LoadAssembly(typeof(EngineContext));
         }
@@ -69,7 +69,7 @@ namespace Tsi.Template.Web.Extensions
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error"); 
+                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
 
@@ -86,8 +86,10 @@ namespace Tsi.Template.Web.Extensions
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapAreaControllerRoute("AdminRoutes", "Admin", "{controller=Home}/{action=Index}/{id?}");
-
+                //endpoints.MapAreaControllerRoute("AdminRoutes", "Admin", "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                        name: "areas",
+                        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

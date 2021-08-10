@@ -3,13 +3,14 @@
 
 @{
     Layout = "_LoginLayout";
+    var returnUrl = @Context.Request.Query["returnUrl"];
 }
  
 <h2>Login</h2>
 
 <div class="card">
     <div class="card-body">
-        <form asp-controller="Account" asp-action="Login" method="post">
+        <form asp-controller="Account" asp-action="Login" method="post" asp-route-returnurl="@returnUrl">
 
             @if (Model.UserNameEnabled)
             {

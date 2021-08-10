@@ -1,0 +1,23 @@
+﻿@using Tsi.Template.Abstraction.Common;
+@using Tsi.Template.Domain.Defaults;
+
+@inject IUserRegistrationService _userRegistrationService;
+@inject IUserService _userService;
+@inject IPermissionService _permissionService;
+
+@{  
+    var currentUser = await _userRegistrationService.GetCurrentUserAsync();
+
+    if(currentUser is not null)
+    {
+        var userIsAdmin = await _userService.IsUserAdminAsync(currentUser);
+        var userHasAccessToAdminArea = await _permissionService.AuthorizeAsync(StandardPermissionProvider.AccessAdminPanel);
+        if (userIsAdmin || userHasAccessToAdminArea)
+        {
+    <div class="flex-column justify-content">
+        @Html.ActionLink("Administration", "Index", "Home", new { area = "Admin" }, null)
+    </div>
+        
+        }
+    }
+}

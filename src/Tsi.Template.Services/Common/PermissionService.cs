@@ -39,11 +39,11 @@ namespace Tsi.Template.Services.Common
 
         #region Utilities
 
-        private async Task<(UserRole, Permission)> GetRoleAndIdentityCoupleAsync(string permissionSystemName, string roleName)
+        private async Task<(UserRole, Permission)> GetPermissionAndUserRoleCoupleAsync(string permissionSystemName, string roleSystemName)
         {
-            if (string.IsNullOrWhiteSpace(roleName))
+            if (string.IsNullOrWhiteSpace(roleSystemName))
             {
-                throw new ArgumentNullException("Cannot be empty", nameof(roleName));
+                throw new ArgumentNullException("Cannot be empty", nameof(roleSystemName));
             }
 
             if (string.IsNullOrWhiteSpace(permissionSystemName))
@@ -51,11 +51,11 @@ namespace Tsi.Template.Services.Common
                 throw new ArgumentNullException("Cannot be empty", nameof(permissionSystemName));
             }
 
-            var identityRole = await _userRoleRepository.GetAsync(r => r.Name.Equals(roleName));
+            var identityRole = await _userRoleRepository.GetAsync(r => r.SystemName.Equals(roleSystemName));
 
             if (identityRole is null)
             {
-                throw new ApplicationException($"Role not found: {roleName}");
+                throw new ApplicationException($"Role not found: {roleSystemName}");
             }
 
             var permission = await _permissionRepo.GetAsync(pr => pr.SystemName.Equals(permissionSystemName));
@@ -90,9 +90,9 @@ namespace Tsi.Template.Services.Common
 
             var hasRight = false;
 
-            foreach (var roleName in userroles)
+            foreach (var userRole in userroles)
             {
-                hasRight = await AuthorizeAsync(permissionSystemName, roleName);
+                hasRight = await AuthorizeAsync(permissionSystemName, userRole.SystemName);
 
                 if (hasRight)
                 {
@@ -103,11 +103,11 @@ namespace Tsi.Template.Services.Common
             return hasRight;
         }
 
-        private async Task<bool> AuthorizeAsync(string permissionSystemName, string roleName)
+        private async Task<bool> AuthorizeAsync(string permissionSystemName, string roleSystemName)
         {
-            var identityRole = _roleManager.Roles.Where(r => r.Name.Equals(roleName)).FirstOrDefault();
+            var userRole = await _userRoleRepository.GetAsync(r => r.SystemName.Equals(roleSystemName));
 
-            if (identityRole is null)
+            if (userRole is null)
             {
                 return false;
             }
@@ -119,7 +119,7 @@ namespace Tsi.Template.Services.Common
                 return false;
             }
 
-            var permissionRoleMapping = await _permissionUserRoleRepo.GetAsync(pr => pr.PermissionId == permission.Id && pr.UserRoleId == identityRole.Id);
+            var permissionRoleMapping = await _permissionUserRoleRepo.GetAsync(pr => pr.PermissionId == permission.Id && pr.UserRoleId == userRole.Id);
 
             return permissionRoleMapping is not null;
         }
@@ -129,28 +129,26 @@ namespace Tsi.Template.Services.Common
         #region Public Methods
         public async Task<bool> AuthorizeAsync(Permission permission)
         {
-            var username = GetCurrentUserUsername();
+            var currentUser = await _userRegistrationService.GetCurrentUserAsync();
 
-            if (string.IsNullOrWhiteSpace(username))
+            if (currentUser is null)
             {
                 return false;
-            }
+            } 
 
-            var user = await _userManager.FindByNameAsync(username);
-
-            return await AuthorizeAsync(permission.SystemName, user);
+            return await AuthorizeAsync(permission.SystemName, currentUser);
         }
 
-        public async Task RemovePermissionForRoleAsync(string permissionSystemName, string roleName)
+        public async Task RemovePermissionForRoleAsync(string permissionSystemName, string roleSystemName)
         {
-            var (identityRole, permission) = await GetRoleAndIdentityCoupleAsync(permissionSystemName, roleName);
+            var (userRole, permission) = await GetPermissionAndUserRoleCoupleAsync(permissionSystemName, roleSystemName);
 
-            await _permissionUserRoleRepo.DeleteAsync(pr => pr.PermissionId == permission.Id && pr.UserRoleId == identityRole.Id);
+            await _permissionUserRoleRepo.DeleteAsync(pr => pr.PermissionId == permission.Id && pr.UserRoleId == userRole.Id);
         }
 
         public async Task AddPermissionToRoleAsync(string permissionSystemName, string roleName)
         {
-            var (identityRole, permission) = await GetRoleAndIdentityCoupleAsync(permissionSystemName, roleName);
+            var (identityRole, permission) = await GetPermissionAndUserRoleCoupleAsync(permissionSystemName, roleName);
 
             await _permissionUserRoleRepo.AddAsync(new()
             {
