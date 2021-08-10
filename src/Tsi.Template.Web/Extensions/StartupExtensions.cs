@@ -10,6 +10,8 @@ using Tsi.Template.Helpers;
 using Tsi.Template.Infrastructure;
 using FluentValidation.AspNetCore;
 using Tsi.Template.Validation;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 
 namespace Tsi.Template.Web.Extensions
 {
@@ -27,6 +29,24 @@ namespace Tsi.Template.Web.Extensions
 
             services.AddControllersWithViews()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ValidatorAssemblyReferencer>());
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(
+                CookieAuthenticationDefaults.AuthenticationScheme, (options) =>
+                {
+                    options.LoginPath = "/Account/Login";
+                    options.LogoutPath = "/Account/Logout";
+                });
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
         }
 
         private static void LoadAssemblies()
@@ -35,7 +55,8 @@ namespace Tsi.Template.Web.Extensions
             EngineContext.Current.LoadAssembly(typeof(AssemblyReferencerServices));
             EngineContext.Current.LoadAssembly(typeof(AssemblyReferencerHelpers)); 
             EngineContext.Current.LoadAssembly(typeof(AssemblyReferencerInfrastructure)); 
-            EngineContext.Current.LoadAssembly(typeof(ValidatorAssemblyReferencer)); 
+            EngineContext.Current.LoadAssembly(typeof(ValidatorAssemblyReferencer));
+            EngineContext.Current.LoadAssembly(typeof(EngineContext));
         }
 
         public static void ConfigureApplicationPipeline(this IApplicationBuilder app, IWebHostEnvironment env)
@@ -55,12 +76,18 @@ namespace Tsi.Template.Web.Extensions
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseCookiePolicy();
+
+            app.UseAuthentication();
+
             app.UseRouting();
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapAreaControllerRoute("AdminRoutes", "Admin", "{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Tsi.Template.Infrastructure\Tsi.Template.Infrastructure.csproj" />
     <ProjectReference Include="..\Tsi.Template.ViewModels\Tsi.Template.ViewModels.csproj" />
   </ItemGroup>

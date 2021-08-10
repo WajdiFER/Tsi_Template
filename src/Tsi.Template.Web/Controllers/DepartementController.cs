@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ using Tsi.Template.Web.Factories.Grh;
 namespace Tsi.Template.Web.Controllers
 {
 
-      
+    [Authorize]
     public class DepartementController : Controller
     {
         private readonly IDepartmentService _departmentService;
@@ -22,7 +23,7 @@ namespace Tsi.Template.Web.Controllers
             _departementModelFactory = DepartementModelFactory;
         }
         public async Task<IActionResult> IndexAsync()
-        {
+        { 
             var departments = await _departmentService.GetAllAsync();
 
             return View(departments.ToViewModels());

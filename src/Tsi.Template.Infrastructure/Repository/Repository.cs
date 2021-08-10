@@ -115,16 +115,34 @@ namespace Tsi.Template.Infrastructure.Repository
             return result;
         }
 
-        public Task<IEnumerable<T>> GetAllAsync()
+        public Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, object>> orderBy = null, bool descending = false)
         {
+            IQueryable<T> query = dbset;
+
             if (typeof(ISoftDelete).IsAssignableFrom(typeof(T)))
             {
-                return Task.FromResult(dbset.Where(T => !((ISoftDelete)T).Deleted).AsEnumerable());
-            }
-            else
+                query = query.Where(T => !((ISoftDelete)T).Deleted); 
+            } 
+            
+            if(orderBy is not null)
             {
-                return Task.FromResult(dbset.AsEnumerable());
-            }   
+                if (descending)
+                {
+                    query = query.OrderByDescending(orderBy);
+                }
+                else
+                {
+                    query = query.OrderBy(orderBy);
+                } 
+            }else
+            {
+                if (typeof(T).IsAssignableTo(typeof(IDisplayedOrdered)))
+                {
+                    query = query.OrderBy(item => ((IDisplayedOrdered)item).DisplayOrder);
+                }
+            }
+
+            return Task.FromResult(query.AsEnumerable());
         }
 
 
