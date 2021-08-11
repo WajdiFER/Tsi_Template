@@ -1,7 +1,14 @@
 ﻿@using Tsi.Template.ViewModels.Catalog;
+@using Tsi.Template.Core.Enums;
 @model ProductViewModel
 
-<div class="card"> 
+
+@section leftSideBar
+{
+    @await Component.InvokeAsync("Sidebar", new { selectedTab = NavigationItems.Gesc | NavigationItems.Product })
+}
+
+<div class="card">
     <div class="card-body">
         <h5 class="card-title">Create product</h5>
         <form asp-controller="Product" asp-action="Create" method="post">

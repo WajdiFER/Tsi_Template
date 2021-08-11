@@ -1,0 +1,8 @@
+﻿
+
+<form class="form-inline" method="post" action="/Account/Logout?returnUrl=%2FAccount%2Flogin">
+    @Html.AntiForgeryToken()
+    <a href="#" class="dropdown-item" onclick="this.closest('form').submit();return false;">
+        <i class="fas fa-sign-out-alt mr-2"></i> Sign out 
+    </a>
+</form> 

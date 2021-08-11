@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Tsi.Template.Core
+﻿namespace Tsi.Template.Core
 {
     public static class CoreDefaults
     {
@@ -12,5 +6,7 @@ namespace Tsi.Template.Core
         {
             public const string EIGHT_DIGITS = @"^\d{8}$";
         }
+
+        public const string AdministratorRole = "Administrator";
     }
 }

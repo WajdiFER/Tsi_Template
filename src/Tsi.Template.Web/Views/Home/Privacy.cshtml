@@ -1,6 +1,15 @@
-﻿@{
+﻿
+@using Tsi.Template.Core.Enums;
+@{
     ViewData["Title"] = "Privacy Policy";
 }
+
+
+@section leftSideBar
+{
+    @await Component.InvokeAsync("Sidebar", new { selectedTab = NavigationItems.None })
+}
+
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>

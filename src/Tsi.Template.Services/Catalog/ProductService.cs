@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Tsi.Template.Abstraction.Catalog;
 using Tsi.Template.Core.Attributes;
 using Tsi.Template.Domain.Gesc.Catalog;
-using Tsi.Template.Domain.Logging;
 using Tsi.Template.Infrastructure.Repository;
 using Tsi.Template.ViewModels.Catalog;
 

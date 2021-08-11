@@ -1,11 +1,17 @@
-﻿@using Tsi.Template.Web.SelectedList
-@using Tsi.Template.ViewModels.Grh.Employee;
+﻿@using Tsi.Template.ViewModels.Grh.Employee;
+@using Tsi.Template.Core.Enums;
 
 @model CreateEmployeeRequest
 
 <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
 <!-- select2-bootstrap4-theme -->
 <link href="https://raw.githack.com/ttskch/select2-bootstrap4-theme/master/dist/select2-bootstrap4.css" rel="stylesheet">
+
+
+@section leftSideBar
+{
+    @await Component.InvokeAsync("Sidebar", new { selectedTab = NavigationItems.Grh | NavigationItems.Employee })
+}
 
 <div class="card">
     <div class="card-body">

@@ -1,7 +1,13 @@
 ﻿@using Tsi.Template.ViewModels.Grh;
+@using Tsi.Template.Core.Enums;
 @using Tsi.Template.Helpers.grh
 @model IEnumerable<EmployeeViewModel>
 
+
+@section leftSideBar
+{
+    @await Component.InvokeAsync("Sidebar", new { selectedTab = NavigationItems.Grh | NavigationItems.Employee })
+}
 
 <section class="content">
     <div class="container-fluid">
@@ -38,18 +44,18 @@
                                 @foreach (EmployeeViewModel item in Model)
                                 {
                                     index++;
-                                <tr>
-                                    <th scope="row">@index</th>
-                                    <td>@item.FirstName</td>
-                                    <td>@item.LastName</td>
-                                    <td>@item.DepartementName</td>
-                                    <td>
-                                        @Html.ActionLink("Delete", "Delete", "Employee", new { id = item.Id }, null)
-                                    </td>
-                                    <td>
-                                        @Html.ActionLink("Edit", "Edit", "Employee", item, null)
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <th scope="row">@index</th>
+                                        <td>@item.FirstName</td>
+                                        <td>@item.LastName</td>
+                                        <td>@item.DepartementName</td>
+                                        <td>
+                                            @Html.ActionLink("Delete", "Delete", "Employee", new { id = item.Id }, null)
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Edit", "Edit", "Employee", item, null)
+                                        </td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>
