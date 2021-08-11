@@ -1,0 +1,106 @@
+﻿@using Tsi.Template.ViewModels.Common;
+@model LoginModel;
+
+@{ 
+    var returnUrl = @Context.Request.Query["returnUrl"];
+    Layout = null;
+}
+
+ 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sage Client | TSI</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <!-- /.login-logo -->
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <a href="#" class="h1"><b>TSI</b> Erp</a>
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg">Sign in to start your session</p>
+
+                <form id="account" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    @if (Model.UserNameEnabled)
+                    {
+                        <div class="input-group mb-3"> 
+                            <input type="text" id="Username" name="Username" placeholder="Username"  class="form-control" value="@Model.Username" />
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user"></span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="input-group mb-3"> 
+                            <input type="text" id="Email" name="Email" placeholder="Email"  class="form-control" value="@Model.Email" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
+                            </div>
+                        </div> 
+                    }
+                    <div class="input-group mb-3">
+                        <input asp-for="Password" class="form-control" placeholder="Password" type="password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="icheck-primary">
+                                <label asp-for="RememberMe">
+                                    <input asp-for="RememberMe" id="remember" type="checkbox" />
+                                    @Html.DisplayNameFor(m => m.RememberMe)
+                                </label>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+    <!-- /.login-box -->
+    <!-- jQuery -->
+    <script src="~/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/dist/js/adminlte.min.js"></script>
+</body>
+</html>

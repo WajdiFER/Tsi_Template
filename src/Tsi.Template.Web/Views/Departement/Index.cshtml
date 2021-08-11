@@ -1,5 +1,12 @@
 ﻿@using Tsi.Template.ViewModels.Grh;
+@using Tsi.Template.Core.Enums;
 @model IEnumerable<DepartementViewModel>
+
+
+@section leftSideBar
+{
+    @await Component.InvokeAsync("Sidebar", new { selectedTab = NavigationItems.Grh | NavigationItems.Departement })
+}
 
 
 <section class="content">
@@ -27,7 +34,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Code</th>
                                     <th scope="col">Libelle</th>
-                                    
+
                                     <th scope="col" colspan="2">Action</th>
                                 </tr>
                             </thead>
@@ -40,7 +47,7 @@
                                         <th scope="row">@index</th>
                                         <td>@item.Code</td>
                                         <td>@item.Libelle</td>
-                                        
+
                                         <td>
                                             @Html.ActionLink("Delete", "Delete", "Departement", new { id = item.Id }, null)
                                         </td>

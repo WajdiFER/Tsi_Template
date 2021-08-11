@@ -1,5 +1,13 @@
-﻿@{
+﻿
+@using Tsi.Template.Core.Enums;
+@{
     ViewData["Title"] = "Home Page";
+}
+
+
+@section leftSideBar
+{
+    @await Component.InvokeAsync("Sidebar", new { selectedTab = NavigationItems.None })
 }
 
 <div class="text-center">
