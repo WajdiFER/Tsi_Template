@@ -1,6 +1,13 @@
-﻿@{
+﻿@using Tsi.Template.Core.Enums;
+
+@{
     Layout = "_Layout";
 }
 
+
+@section leftSideBar
+{
+    @await Component.InvokeAsync("Sidebar", new { selectedTab = NavigationItems.None })
+}
 
 <h1>You are not authorized to access this resource</h1>

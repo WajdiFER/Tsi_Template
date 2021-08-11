@@ -1,6 +1,12 @@
 ﻿@using Tsi.Template.ViewModels.Catalog;
+@using Tsi.Template.Core.Enums;
 @model IEnumerable<ProductViewModel>
 
+
+@section leftSideBar
+{
+    @await Component.InvokeAsync("Sidebar", new { selectedTab = NavigationItems.Gesc | NavigationItems.Product })
+}
 
 <section class="content">
     <div class="container-fluid">
@@ -35,18 +41,18 @@
                                 @foreach (ProductViewModel item in Model)
                                 {
                                     index++;
-                                <tr>
-                                    <th scope="row">@index</th>
-                                    <td>@item.Code</td>
-                                    <td>@item.Libelle</td>
-                                    <td>@item.Price</td>
-                                    <td>
-                                        @Html.ActionLink("Delete", "Delete", "Product", new { id = item.Id }, null)
-                                    </td>
-                                    <td>
-                                        @Html.ActionLink("Edit", "Edit", "Product", item, null)
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <th scope="row">@index</th>
+                                        <td>@item.Code</td>
+                                        <td>@item.Libelle</td>
+                                        <td>@item.Price</td>
+                                        <td>
+                                            @Html.ActionLink("Delete", "Delete", "Product", new { id = item.Id }, null)
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Edit", "Edit", "Product", item, null)
+                                        </td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>

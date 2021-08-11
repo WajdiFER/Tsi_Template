@@ -12,7 +12,7 @@ using Tsi.Template.ViewModels.Grh.Employee;
 
 namespace Tsi.Template.Web.Controllers
 {
-    public class EmployeeController : Controller
+    public class EmployeeController : TsiBaseController
     {
         private readonly IEmployeeService _employeeService;
         private readonly IDepartmentService _departementService;

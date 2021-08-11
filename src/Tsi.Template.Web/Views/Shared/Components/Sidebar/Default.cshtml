@@ -1,0 +1,80 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@using Tsi.Template.Core;
+@using Tsi.Template.Domain.Common;
+@using Tsi.Template.Abstraction.Common;
+
+@model IList<MenuItem>
+
+@inject IUserService _userService
+@inject IUserRegistrationService _userRegistrationService;
+
+@{
+    var user = await _userRegistrationService.GetCurrentUserAsync();
+    var userDescription = user is not null? $"{user.FirstName}, {user.LastName}" : "";
+}
+
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="@Url.Action("Index", "Home")" class="brand-link">
+        @*<img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">*@
+        <span class="brand-text font-weight-light">Tsi</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                @*<img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">*@
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">@userDescription</a>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                with font-awesome or any other icon font library -->
+
+
+                @if (Model != null && Model.Count > 0)
+                {
+                    foreach (var menuItem in Model)
+                    {
+                <li class="nav-item @(menuItem.Active? "menu-open":"")">
+                    @menuItem.Href
+                    <a class="nav-link">
+                        <i class="fas  @menuItem.Icon nav-icon"></i>
+                        <p>@menuItem.Name</p>
+                        <i class="right fas fa-angle-left"></i>
+                    </a>
+
+                    @if (menuItem.Items.Count > 0)
+                    {
+                        <ul class="nav nav-treeview">
+                            @foreach (var menuItemItem in menuItem.Items)
+                            {
+                                <li class="nav-item ">
+                                    <a href="@menuItemItem.Href" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>@menuItemItem.Name</p>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </li>
+                    }
+
+                }
+
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>

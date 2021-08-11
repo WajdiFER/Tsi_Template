@@ -1,8 +1,14 @@
 ﻿@using Tsi.Template.ViewModels.Grh.Employee;
-@using Microsoft.AspNetCore.Mvc.Rendering 
+@using Tsi.Template.Core.Enums;
+@using Microsoft.AspNetCore.Mvc.Rendering
 
 @model CreateEmployeeRequest
 
+
+@section leftSideBar
+{
+    @await Component.InvokeAsync("Sidebar", new { selectedTab = NavigationItems.Grh | NavigationItems.Employee })
+}
 
 <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
 <!-- select2-bootstrap4-theme -->
@@ -33,7 +39,7 @@
                 @Html.DisplayNameFor(model => model.DepartementId)
                 @Html.DropDownListFor(x => x.DepartementId, Model.Departments, "", new { @id = "simpleSelect2", @class = "form-control" })
                 <span asp-validation-for="DepartementId" class="text-danger"></span>
-            </div> 
+            </div>
             <div class="form-group text-center">
                 <button type="submit" name="save" class="btn btn-primary col-md-3">
                     <i class="far fa-save"></i> Save

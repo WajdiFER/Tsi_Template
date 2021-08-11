@@ -1,5 +1,12 @@
 ﻿@using Tsi.Template.ViewModels.Grh;
+@using Tsi.Template.Core.Enums;
 @model DepartementViewModel
+
+
+@section leftSideBar
+{
+    @await Component.InvokeAsync("Sidebar", new { selectedTab = NavigationItems.Grh | NavigationItems.Departement })
+}
 
 <div class="card">
     <div class="card-body">
