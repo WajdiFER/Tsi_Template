@@ -1,0 +1,71 @@
+﻿@using Tsi.Template.ViewModels.Grh;
+@using Tsi.Template.Core.Enums;
+@model IEnumerable<DepartementViewModel>
+
+
+@section leftSideBar
+{
+    @await Component.InvokeAsync("Sidebar", new { selectedTab = NavigationItems.Grh | NavigationItems.Departement })
+}
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="form-horizontal">
+            <div class="cards-group">
+                <div>
+                    <h2>Departement List</h2>
+                    <div class="icon-search">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Departement" asp-action="Create">
+                            <i class="fas fa-plus-circle"></i>Create
+                        </a>
+                    </div>
+
+                </div>
+
+                <br />
+
+                <div class="card card-default">
+                    <div class="card-body">
+
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Code</th>
+                                    <th scope="col">Libelle</th>
+
+                                    <th scope="col" colspan="2">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ int index = 0;}
+                                @foreach (DepartementViewModel item in Model)
+                                {
+                                    index++;
+                                    <tr>
+                                        <th scope="row">@index</th>
+                                        <td>@item.Code</td>
+                                        <td>@item.Libelle</td>
+
+                                        <td>
+                                            @Html.ActionLink("Delete", "Delete", "Departement", new { id = item.Id }, null)
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Edit", "Edit", "Departement", item, null)
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+
+
+</section>

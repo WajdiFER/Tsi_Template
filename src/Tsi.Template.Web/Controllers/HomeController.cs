@@ -4,7 +4,7 @@ using Tsi.Template.Web.Models;
 
 namespace Tsi.Template.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : TsiBaseController
     { 
         public IActionResult Index()
         {  

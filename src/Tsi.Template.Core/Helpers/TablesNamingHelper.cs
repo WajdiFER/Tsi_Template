@@ -1,17 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Tsi.Template.Core.Abstractions;
 
 namespace Tsi.Template.Core.Helpers
-{  
+{
     public static class TablesNamingHelper
-    {
-        private const string Prefix = "";
-
+    { 
         public static string NameOf<T>() => NameOf(typeof(T));
 
-        public static string NameOf(Type tableType) => tableType.Name.EndsWith("s") ? $"{Prefix}{tableType.Name}" : $"{Prefix}{tableType.Name}s";
+        public static string NameOf(Type tableType)
+        {
+            string prefix;
+
+            if (typeof(ICommonEntity).IsAssignableFrom(tableType))
+            {
+                prefix = "Common_";
+            }
+            else
+            {
+                prefix = "App_";
+            }
+
+            return tableType.Name.EndsWith("s") ? $"{prefix}{tableType.Name}" : $"{prefix}{tableType.Name}s";
+        }
     }
 }

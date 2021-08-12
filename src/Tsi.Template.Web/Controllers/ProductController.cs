@@ -7,7 +7,7 @@ using Tsi.Template.Web.Factories.Catalog;
 
 namespace Tsi.Template.Web.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : TsiBaseController
     {
         private readonly IProductService _productService;
         private readonly IProductModelFactory _productModelFactory;
@@ -21,7 +21,7 @@ namespace Tsi.Template.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var products = (await _productService.GetAllAsync()).ToViewModels();
-             
+            
             return View(products);
         }
 

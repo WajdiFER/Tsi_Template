@@ -8,4 +8,8 @@
     <ProjectReference Include="..\Tsi.Template.Core\Tsi.Template.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logging\" />
+  </ItemGroup>
+
 </Project>

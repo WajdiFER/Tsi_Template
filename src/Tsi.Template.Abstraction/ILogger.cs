@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tsi.Template.Domain.Logging;
+using Tsi.Template.Domain.Common;
 
 namespace Tsi.Template.Abstraction
 {

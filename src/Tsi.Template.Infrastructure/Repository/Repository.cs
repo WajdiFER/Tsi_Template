@@ -115,16 +115,34 @@ namespace Tsi.Template.Infrastructure.Repository
             return result;
         }
 
-        public Task<IEnumerable<T>> GetAllAsync()
+        public Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, object>> orderBy = null, bool descending = false)
         {
+            IQueryable<T> query = dbset;
+
             if (typeof(ISoftDelete).IsAssignableFrom(typeof(T)))
             {
-                return Task.FromResult(dbset.Where(T => !((ISoftDelete)T).Deleted).AsEnumerable());
-            }
-            else
+                query = query.Where(T => !((ISoftDelete)T).Deleted); 
+            } 
+            
+            if(orderBy is not null)
             {
-                return Task.FromResult(dbset.AsEnumerable());
-            }   
+                if (descending)
+                {
+                    query = query.OrderByDescending(orderBy);
+                }
+                else
+                {
+                    query = query.OrderBy(orderBy);
+                } 
+            }else
+            {
+                if (typeof(T).IsAssignableTo(typeof(IDisplayedOrdered)))
+                {
+                    query = query.OrderBy(item => ((IDisplayedOrdered)item).DisplayOrder);
+                }
+            }
+
+            return Task.FromResult(query.AsEnumerable());
         }
 
 
@@ -153,6 +171,22 @@ namespace Tsi.Template.Infrastructure.Repository
             ((ISoftDelete)entity).DeletedAt = DateTime.Now;
 
             dbset.Update(entity);
+        }
+
+        public Task<IEnumerable<T>> GetManyWithIncludeAsync(Expression<Func<T, bool>> where = null, Expression<Func<T, bool>> orderBy = null, Expression<Func<T, object>> include = null)
+        {
+            IQueryable<T> Query = dbset;
+            if (where != null)
+            {
+                Query = Query.Include(include).Where(where);
+            }
+            if (where == null)
+            {
+                Query = Query.Include(include);
+            }
+            
+
+            return Task.FromResult(Query.AsEnumerable());
         }
         #endregion
     }
